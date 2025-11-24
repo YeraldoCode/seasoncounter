@@ -1,0 +1,65 @@
+.game-menu {
+    position: absolute;
+    top: 80px;
+    right: 20px;
+    background-color: var(--bg-card);
+    width: 280px;
+    border-radius: 12px;
+    box-shadow: var(--shadow-lg);
+    z-index: 100;
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    animation: scaleIn 0.2s ease-out;
+    transform-origin: top right;
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.menu-header {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 0.5rem;
+}
+
+.menu-header h3 {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.game-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.game-item {
+    padding: 0.75rem 1rem;
+    color: var(--text-primary);
+    cursor: pointer;
+    font-size: 0.95rem;
+    border-radius: 8px;
+    transition: all 0.2s;
+    font-weight: 500;
+}
+
+.game-item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.game-item.active {
+    background-color: var(--accent-primary);
+    color: #fff;
+}
