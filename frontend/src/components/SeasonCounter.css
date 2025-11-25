@@ -37,11 +37,29 @@
     -webkit-text-fill-color: transparent;
 }
 
+/* Large Tablet */
+@media (max-width: 1024px) {
+    .season-counter-wrapper {
+        padding: 2.5rem 1.5rem;
+        margin: 1.5rem;
+        max-width: 100%;
+    }
+
+    .season-title {
+        font-size: 1.3rem;
+    }
+
+    .season-number {
+        font-size: 3rem;
+    }
+}
+
+/* Tablet */
 @media (max-width: 768px) {
     .season-counter-wrapper {
-        padding: 1.5rem;
+        padding: 2rem 1rem;
         margin: 1rem;
-        width: auto;
+        border-radius: 20px;
     }
 
     .season-title {
@@ -50,5 +68,40 @@
 
     .season-number {
         font-size: 2.5rem;
+        margin-top: 0.3rem;
+    }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .season-counter-wrapper {
+        padding: 1.5rem 1rem;
+        margin: 0.5rem;
+        border-radius: 16px;
+    }
+
+    .season-title {
+        font-size: 1rem;
+        letter-spacing: 0.05em;
+    }
+
+    .season-number {
+        font-size: 2rem;
+    }
+}
+
+/* Very Small Mobile */
+@media (max-width: 360px) {
+    .season-counter-wrapper {
+        padding: 1rem 0.75rem;
+        margin: 0.25rem;
+    }
+
+    .season-title {
+        font-size: 0.9rem;
+    }
+
+    .season-number {
+        font-size: 1.75rem;
     }
 }

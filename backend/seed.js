@@ -2,36 +2,47 @@ const mongoose = require('mongoose');
 const Season = require('./models/Season');
 require('dotenv').config();
 
+// Fechas actuales y futuras para que el contador funcione
 const seedData = [
     {
         game: "Fortnite",
-        seasonName: "Chapter 7 Season 1",
-        seasonNumber: 7,
-        startDate: new Date("2025-09-06"),
-        endDate: new Date("2025-11-29"),
-        targetDate: new Date("2025-11-29T00:30:00"),
-        displayStartDate: "September 6, 2025",
-        displayEndDate: "Saturday, November 29, 2025 at 12:30 AM CST"
+        seasonName: "Chapter 6 Season 1",
+        seasonNumber: 31,
+        startDate: new Date("2024-11-02"),
+        endDate: new Date("2025-02-28"),
+        targetDate: new Date("2025-02-28T12:00:00"),
+        displayStartDate: "November 2, 2024",
+        displayEndDate: "February 28, 2025 at 12:00 PM"
     },
     {
         game: "COD: Warzone",
-        seasonName: "Season 5 Reloaded",
-        seasonNumber: 5,
-        startDate: new Date("2025-10-01"),
-        endDate: new Date("2025-12-15"),
-        targetDate: new Date("2025-12-15T10:00:00"),
-        displayStartDate: "October 1, 2025",
-        displayEndDate: "December 15, 2025"
+        seasonName: "Season 1",
+        seasonNumber: 1,
+        startDate: new Date("2024-11-14"),
+        endDate: new Date("2025-01-29"),
+        targetDate: new Date("2025-01-29T18:00:00"),
+        displayStartDate: "November 14, 2024",
+        displayEndDate: "January 29, 2025 at 6:00 PM"
     },
     {
         game: "PUBG: Battlegrounds",
-        seasonName: "Season 31",
-        seasonNumber: 31,
-        startDate: new Date("2025-09-01"),
-        endDate: new Date("2025-12-01"),
-        targetDate: new Date("2025-12-01T00:00:00"),
-        displayStartDate: "September 1, 2025",
-        displayEndDate: "December 1, 2025"
+        seasonName: "Season 32",
+        seasonNumber: 32,
+        startDate: new Date("2024-11-13"),
+        endDate: new Date("2025-02-05"),
+        targetDate: new Date("2025-02-05T09:00:00"),
+        displayStartDate: "November 13, 2024",
+        displayEndDate: "February 5, 2025 at 9:00 AM"
+    },
+    {
+        game: "Apex Legends",
+        seasonName: "Season 23: From the Rift",
+        seasonNumber: 23,
+        startDate: new Date("2024-11-05"),
+        endDate: new Date("2025-01-28"),
+        targetDate: new Date("2025-01-28T18:00:00"),
+        displayStartDate: "November 5, 2024",
+        displayEndDate: "January 28, 2025 at 6:00 PM"
     }
 ];
 
@@ -46,7 +57,14 @@ const seedDatabase = async () => {
 
         // Insert seed data
         await Season.insertMany(seedData);
-        console.log('Seed data inserted successfully');
+        console.log('========================');
+        console.log('✅ Seed data inserted successfully!');
+        console.log('Added games with REAL countdowns:');
+        seedData.forEach(s => {
+            const daysLeft = Math.ceil((new Date(s.endDate) - new Date()) / (1000 * 60 * 60 * 24));
+            console.log(`  - ${s.game}: ${daysLeft} days remaining`);
+        });
+        console.log('========================');
 
         mongoose.connection.close();
         console.log('Database connection closed');

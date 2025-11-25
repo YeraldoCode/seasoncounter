@@ -13,6 +13,7 @@ function App() {
   const [seasons, setSeasons] = useState({});
   const [loading, setLoading] = useState(true);
   const [availableGames, setAvailableGames] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchSeasons();
@@ -21,7 +22,10 @@ function App() {
   const fetchSeasons = async () => {
     try {
       setLoading(true);
+      setError(null);
       const data = await seasonService.getAllSeasons();
+
+      console.log('Seasons loaded:', data); // Debug
 
       // Convert array to object with game names as keys
       const seasonsMap = {};
@@ -41,7 +45,7 @@ function App() {
       }
     } catch (error) {
       console.error('Error loading seasons:', error);
-      // Optionally set fallback data here
+      setError('No se pudieron cargar las temporadas. ¿Está el backend corriendo en puerto 5000?');
     } finally {
       setLoading(false);
     }
@@ -71,6 +75,17 @@ function App() {
     );
   }
 
+  if (error) {
+    return (
+      <div className="app-container">
+        <div className="loading-screen">
+          <p className="error-text">⚠️ {error}</p>
+          <button onClick={fetchSeasons} className="retry-btn">Reintentar</button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="app-container">
       <Header toggleMenu={toggleMenu} toggleAds={toggleAds} showAds={showAds} />
@@ -83,12 +98,12 @@ function App() {
       />
 
       <div className="main-content">
-        {showAds && <AdSidebar />}
+        {showAds && <AdSidebar key="left" />}
         <SeasonCounter
           selectedGame={selectedGame}
           seasonData={seasons[selectedGame]}
         />
-        {showAds && <AdSidebar />}
+        {showAds && <AdSidebar key="right" />}
       </div>
     </div>
   );

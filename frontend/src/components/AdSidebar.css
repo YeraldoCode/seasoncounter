@@ -8,44 +8,94 @@
 
 .ad-slot {
     width: 100%;
-    height: 250px;
-    background-color: rgba(30, 41, 59, 0.4);
-    border: 1px dashed rgba(255, 255, 255, 0.1);
+    min-height: 250px;
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0.8) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: all 0.3s ease;
     overflow: hidden;
     position: relative;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.ad-slot:hover {
-    background-color: rgba(30, 41, 59, 0.6);
-    border-color: var(--accent-primary);
+/* AdSense container */
+.ad-slot ins.adsbygoogle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
 }
 
-.ad-placeholder {
+/* Placeholder visible siempre */
+.ad-placeholder-mock {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
-    color: var(--text-secondary);
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 1.5rem;
+    text-align: center;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+}
+
+.ad-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
 }
 
 .ad-label {
-    font-size: 0.875rem;
-    font-weight: 600;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--accent-primary);
+    text-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+}
+
+.ad-size {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    font-family: monospace;
+    opacity: 0.8;
+}
+
+.ad-status {
+    margin-top: 0.5rem;
+    padding: 0.25rem 0.75rem;
+    background: rgba(16, 185, 129, 0.2);
+    border: 1px solid var(--accent-primary);
+    border-radius: 20px;
+    font-size: 0.65rem;
+    color: var(--accent-primary);
     text-transform: uppercase;
     letter-spacing: 0.1em;
 }
 
-.ad-dims {
-    font-size: 0.75rem;
-    opacity: 0.7;
-    font-family: monospace;
+/* Cuando AdSense carga, ocultar placeholder */
+.ad-slot ins.adsbygoogle[data-ad-status="filled"]~.ad-placeholder-mock {
+    display: none;
 }
 
+/* Responsive */
 @media (max-width: 1200px) {
     .ad-sidebar {
         display: none;

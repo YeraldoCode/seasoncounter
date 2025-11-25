@@ -19,6 +19,7 @@
     letter-spacing: -0.5px;
     background: linear-gradient(to right, var(--accent-primary), #34d399);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
@@ -38,6 +39,7 @@
     font-size: 0.875rem;
     font-weight: 500;
     transition: all 0.2s;
+    white-space: nowrap;
 }
 
 .ads-toggle-btn:hover {
@@ -65,4 +67,50 @@
     height: 2px;
     background-color: var(--text-primary);
     border-radius: 2px;
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+    .header {
+        padding: 0 1rem;
+        height: 60px;
+    }
+
+    .logo {
+        font-size: 1.2rem;
+    }
+
+    .header-controls {
+        gap: 0.5rem;
+    }
+
+    .ads-toggle-btn {
+        padding: 0.4rem 0.75rem;
+        font-size: 0.75rem;
+    }
+
+    .menu-btn {
+        padding: 6px;
+    }
+
+    .bar {
+        width: 20px;
+    }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+    .header {
+        padding: 0 0.75rem;
+        height: 56px;
+    }
+
+    .logo {
+        font-size: 1rem;
+    }
+
+    .ads-toggle-btn {
+        font-size: 0.7rem;
+        padding: 0.35rem 0.6rem;
+    }
 }
