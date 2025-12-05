@@ -1,11 +1,16 @@
 import React from 'react';
 import './Header.css';
 
-const Header = ({ toggleMenu, toggleAds, showAds }) => {
+const Header = ({ toggleMenu, toggleAds, showAds, showAdminButton, onAdminClick }) => {
   return (
     <header className="header">
       <div className="logo">SEASONCOUNTER</div>
       <div className="header-controls">
+        {showAdminButton && (
+          <button className="admin-btn" onClick={onAdminClick}>
+            ⚙️ Admin
+          </button>
+        )}
         <button className="ads-toggle-btn" onClick={toggleAds}>
           {showAds ? 'Hide Ads' : 'Show Ads'}
         </button>

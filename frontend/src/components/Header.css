@@ -28,6 +28,23 @@
     gap: 1rem;
 }
 
+.admin-btn {
+    background: var(--accent-primary, #48bb78);
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.admin-btn:hover {
+    background: #38a169;
+    transform: translateY(-2px);
+}
+
 .ads-toggle-btn {
     background-color: rgba(255, 255, 255, 0.1);
     border: 1px solid var(--border-color);

@@ -15,6 +15,13 @@
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+  /* Theme system variables (will be overridden by ThemeContext) */
+  --color-primary: #1a202c;
+  --color-secondary: #2d3748;
+  --color-accent: #48bb78;
+  --color-background: #0f1419;
+  --color-text: #e2e8f0;
 }
 
 * {
