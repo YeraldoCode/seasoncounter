@@ -1,30 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { seasonService } from '../../services/seasonService';
+import React, { useState } from 'react';
+import { 
+    useGetSeasonsQuery, 
+    useCreateSeasonMutation,
+    useUpdateSeasonMutation,
+    useDeleteSeasonMutation 
+} from '../../store/apiSlice';
 import SeasonModal from '../../components/SeasonModal';
 import '../AdminPage.css';
 
 const SeasonsManagement = () => {
-    const [seasons, setSeasons] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const { data: seasons = [], isLoading, refetch } = useGetSeasonsQuery();
+    const [createSeason] = useCreateSeasonMutation();
+    const [updateSeason] = useUpdateSeasonMutation();
+    const [deleteSeason] = useDeleteSeasonMutation();
+    
     const [showModal, setShowModal] = useState(false);
     const [editingSeason, setEditingSeason] = useState(null);
     const [message, setMessage] = useState({ type: '', text: '' });
-
-    useEffect(() => {
-        fetchSeasons();
-    }, []);
-
-    const fetchSeasons = async () => {
-        try {
-            setLoading(true);
-            const data = await seasonService.getAllSeasons();
-            setSeasons(data);
-        } catch (error) {
-            showMessage('error', 'Error al cargar temporadas');
-        } finally {
-            setLoading(false);
-        }
-    };
 
     const showMessage = (type, text) => {
         setMessage({ type, text });
@@ -45,26 +37,38 @@ const SeasonsManagement = () => {
         if (!window.confirm(`¿Eliminar temporada de ${gameName}?`)) return;
 
         try {
-            await seasonService.deleteSeason(gameName);
+            await deleteSeason(gameName).unwrap();
             showMessage('success', 'Temporada eliminada exitosamente');
-            fetchSeasons();
         } catch (error) {
-            showMessage('error', 'Error al eliminar temporada');
+            const errorMsg = error.data?.message || 'Error al eliminar temporada';
+            showMessage('error', errorMsg);
+            console.error('Error deleting season:', error);
+            
+            if (error.status === 401) {
+                showMessage('error', 'Sesión expirada. Por favor, inicia sesión nuevamente.');
+            }
         }
     };
 
     const handleSave = async (seasonData) => {
         try {
-            await seasonService.updateSeason(seasonData);
-            showMessage('success', editingSeason ? 'Temporada actualizada' : 'Temporada creada');
+            if (editingSeason) {
+                // Actualizar temporada existente
+                await updateSeason({ game: editingSeason.game, data: seasonData }).unwrap();
+                showMessage('success', 'Temporada actualizada exitosamente');
+            } else {
+                // Crear nueva temporada
+                await createSeason(seasonData).unwrap();
+                showMessage('success', 'Temporada creada exitosamente');
+            }
             setShowModal(false);
-            fetchSeasons();
         } catch (error) {
-            showMessage('error', 'Error al guardar temporada');
+            showMessage('error', error.data?.message || 'Error al guardar temporada');
+            console.error('Error saving season:', error);
         }
     };
 
-    if (loading) {
+    if (isLoading) {
         return <div className="loading-screen"><div className="spinner"></div></div>;
     }
 
@@ -85,7 +89,7 @@ const SeasonsManagement = () => {
                 <button onClick={handleAdd} className="btn-primary">
                     ➕ Nueva Temporada
                 </button>
-                <button onClick={fetchSeasons} className="btn-secondary">
+                <button onClick={() => refetch()} className="btn-secondary">
                     🔄 Actualizar
                 </button>
             </div>

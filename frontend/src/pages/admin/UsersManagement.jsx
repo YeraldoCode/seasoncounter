@@ -1,27 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { userService } from '../../services/userService';
+import { useNavigate } from 'react-router-dom';
+import {
+    useGetUsersQuery,
+    useToggleUserStatusMutation,
+    useDeleteUserMutation
+} from '../../store/apiSlice';
 import '../AdminPage.css';
 
 const UsersManagement = () => {
-    const [users, setUsers] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
+    const { data: users = [], isLoading, error } = useGetUsersQuery();
+    const [toggleUserStatus] = useToggleUserStatusMutation();
+    const [deleteUser] = useDeleteUserMutation();
     const [message, setMessage] = useState({ type: '', text: '' });
 
+    // Verificar token al montar el componente
     useEffect(() => {
-        fetchUsers();
-    }, []);
-
-    const fetchUsers = async () => {
-        try {
-            setLoading(true);
-            const data = await userService.getAllUsers();
-            setUsers(data);
-        } catch (error) {
-            showMessage('error', 'Error al cargar usuarios');
-        } finally {
-            setLoading(false);
+        const token = localStorage.getItem('token');
+        if (!token) {
+            showMessage('error', 'No active session. Redirecting to login...');
+            setTimeout(() => navigate('/login'), 2000);
         }
-    };
+    }, [navigate]);
 
     const showMessage = (type, text) => {
         setMessage({ type, text });
@@ -30,35 +30,62 @@ const UsersManagement = () => {
 
     const handleToggleStatus = async (userId) => {
         try {
-            await userService.toggleUserStatus(userId);
-            showMessage('success', 'Estado de usuario actualizado');
-            fetchUsers();
+            await toggleUserStatus(userId).unwrap();
+            showMessage('success', 'User status updated');
         } catch (error) {
-            showMessage('error', 'Error al actualizar usuario');
+            console.error('Error toggling user status:', error);
+            if (error.status === 401) {
+                showMessage('error', 'Session expired. Redirecting to login...');
+                setTimeout(() => {
+                    localStorage.removeItem('token');
+                    navigate('/login');
+                }, 1500);
+            } else {
+                showMessage('error', 'Error updating user');
+            }
         }
     };
 
     const handleDelete = async (userId, username) => {
-        if (!window.confirm(`¿Eliminar usuario ${username}?`)) return;
+        if (!window.confirm(`Delete user ${username}?`)) return;
 
         try {
-            await userService.deleteUser(userId);
-            showMessage('success', 'Usuario eliminado');
-            fetchUsers();
+            await deleteUser(userId).unwrap();
+            showMessage('success', 'User deleted');
         } catch (error) {
-            showMessage('error', 'Error al eliminar usuario');
+            console.error('Error deleting user:', error);
+            if (error.status === 401) {
+                showMessage('error', 'Session expired. Redirecting to login...');
+                setTimeout(() => {
+                    localStorage.removeItem('token');
+                    navigate('/login');
+                }, 1500);
+            } else {
+                showMessage('error', 'Error deleting user');
+            }
         }
     };
 
-    if (loading) {
+    if (isLoading) {
         return <div className="loading-screen"><div className="spinner"></div></div>;
+    }
+
+    if (error) {
+        return (
+            <div className="error-screen">
+                <p>Error loading users</p>
+                <button onClick={() => navigate('/login')} className="btn-primary">
+                    Go to Login
+                </button>
+            </div>
+        );
     }
 
     return (
         <div>
             <div className="admin-header">
-                <h1>👥 Gestión de Usuarios</h1>
-                <p>Administra los usuarios del sistema</p>
+                <h1>👥 Users Management</h1>
+                <p>Manage system users</p>
             </div>
 
             {message.text && (
@@ -67,58 +94,60 @@ const UsersManagement = () => {
                 </div>
             )}
 
-            <div className="admin-actions">
-                <button onClick={fetchUsers} className="btn-secondary">
-                    🔄 Actualizar
-                </button>
-            </div>
-
-            <div className="admin-content">
-                <table className="data-table">
+            <div className="table-container">
+                <table className="admin-table">
                     <thead>
                         <tr>
-                            <th>Usuario</th>
+                            <th>User</th>
                             <th>Email</th>
-                            <th>Rol</th>
-                            <th>Estado</th>
-                            <th>Creado</th>
-                            <th>Acciones</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th>Created</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map((user) => (
-                            <tr key={user._id}>
-                                <td><strong>{user.username}</strong></td>
-                                <td>{user.email}</td>
-                                <td>
-                                    <span className={`badge ${user.role}`}>
-                                        {user.role === 'admin' ? '👑 Admin' : '👤 Usuario'}
-                                    </span>
-                                </td>
-                                <td>
-                                    <span className={`status ${user.isActive ? 'active' : 'inactive'}`}>
-                                        {user.isActive ? '✅ Activo' : '❌ Inactivo'}
-                                    </span>
-                                </td>
-                                <td>{new Date(user.createdAt).toLocaleDateString()}</td>
-                                <td>
-                                    <div className="table-actions">
-                                        <button 
-                                            onClick={() => handleToggleStatus(user._id)}
-                                            className="btn-icon"
-                                        >
-                                            {user.isActive ? '🔒 Desactivar' : '🔓 Activar'}
-                                        </button>
-                                        <button 
-                                            onClick={() => handleDelete(user._id, user.username)}
-                                            className="btn-icon danger"
-                                        >
-                                            🗑️ Eliminar
-                                        </button>
-                                    </div>
+                        {users.length === 0 ? (
+                            <tr>
+                                <td colSpan="6" style={{ textAlign: 'center', padding: '2rem' }}>
+                                    No registered users
                                 </td>
                             </tr>
-                        ))}
+                        ) : (
+                            users.map((user) => (
+                                <tr key={user._id}>
+                                    <td><strong>{user.username}</strong></td>
+                                    <td>{user.email}</td>
+                                    <td>
+                                        <span className={`badge ${user.role}`}>
+                                            {user.role === 'admin' ? '👑 Admin' : '👤 User'}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span className={`status ${user.isActive ? 'active' : 'inactive'}`}>
+                                            {user.isActive ? '✅ Active' : '❌ Inactive'}
+                                        </span>
+                                    </td>
+                                    <td>{new Date(user.createdAt).toLocaleDateString()}</td>
+                                    <td>
+                                        <button
+                                            onClick={() => handleToggleStatus(user._id)}
+                                            className="btn-edit"
+                                            title={user.isActive ? 'Deactivate' : 'Activate'}
+                                        >
+                                            {user.isActive ? '🔒' : '🔓'}
+                                        </button>
+                                        <button
+                                            onClick={() => handleDelete(user._id, user.username)}
+                                            className="btn-delete"
+                                            title="Delete"
+                                        >
+                                            🗑️
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))
+                        )}
                     </tbody>
                 </table>
             </div>

@@ -1,51 +1,56 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './CountdownTimer.css';
 
 const CountdownTimer = ({ targetDate }) => {
-    const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+    const calculateTimeLeft = useCallback(() => {
+        if (!targetDate) return { days: 0, hours: 0, minutes: 0, seconds: 0 };
 
-    function calculateTimeLeft() {
         const difference = +new Date(targetDate) - +new Date();
-        let timeLeft = {};
 
         if (difference > 0) {
-            timeLeft = {
+            return {
                 days: Math.floor(difference / (1000 * 60 * 60 * 24)),
                 hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
                 minutes: Math.floor((difference / 1000 / 60) % 60),
                 seconds: Math.floor((difference / 1000) % 60)
             };
-        } else {
-            timeLeft = { days: 0, hours: 0, minutes: 0, seconds: 0 };
         }
-        return timeLeft;
-    }
+
+        return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+    }, [targetDate]);
+
+    const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
     useEffect(() => {
-        const timer = setTimeout(() => {
+        // Update immediately
+        setTimeLeft(calculateTimeLeft());
+
+        // Configurar intervalo
+        const timer = setInterval(() => {
             setTimeLeft(calculateTimeLeft());
         }, 1000);
 
-        return () => clearTimeout(timer);
-    });
+        // Cleanup
+        return () => clearInterval(timer);
+    }, [calculateTimeLeft]);
 
     return (
         <div className="countdown-container">
-            <div className="time-card">
-                <span className="time-value">{timeLeft.days}</span>
-                <span className="time-label">d</span>
+            <div className="simply-section">
+                <span className="simply-amount">{timeLeft.days}</span>
+                <span className="simply-word">d</span>
             </div>
-            <div className="time-card">
-                <span className="time-value">{timeLeft.hours}</span>
-                <span className="time-label">h</span>
+            <div className="simply-section">
+                <span className="simply-amount">{timeLeft.hours}</span>
+                <span className="simply-word">h</span>
             </div>
-            <div className="time-card">
-                <span className="time-value">{timeLeft.minutes}</span>
-                <span className="time-label">m</span>
+            <div className="simply-section">
+                <span className="simply-amount">{timeLeft.minutes}</span>
+                <span className="simply-word">m</span>
             </div>
-            <div className="time-card">
-                <span className="time-value">{timeLeft.seconds}</span>
-                <span className="time-label">s</span>
+            <div className="simply-section">
+                <span className="simply-amount">{timeLeft.seconds}</span>
+                <span className="simply-word">s</span>
             </div>
         </div>
     );

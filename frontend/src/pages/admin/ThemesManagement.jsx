@@ -84,13 +84,15 @@ const ThemesManagement = () => {
 
     const getSeasonIcon = (season) => {
         const icons = {
-            winter: '❄️',
-            spring: '🌸',
+            corporate: '💼',
+            christmas: '🎄',
+            halloween: '�',
             summer: '☀️',
+            winter: '❄️',
             autumn: '🍂',
-            default: '🎨'
+            spring: '�'
         };
-        return icons[season] || icons.default;
+        return icons[season] || '🎨';
     };
 
     if (loading) {

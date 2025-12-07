@@ -1,25 +1,57 @@
 .header {
-    background-color: rgba(15, 23, 42, 0.8);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border-color);
-    padding: 0 2rem;
+    /* Modern Glass Nav */
+    background: rgba(10, 15, 26, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+    /* Layout */
+    padding: 0 2.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 70px;
+    height: 75px;
+
+    /* Position */
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 1000;
+
+    /* Shadow */
+    box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.4);
+
+    /* Smooth Transitions */
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .logo {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    letter-spacing: -0.5px;
-    background: linear-gradient(to right, var(--accent-primary), #34d399);
+    font-size: 1.65rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    position: relative;
+
+    /* Animated Gradient */
+    background: linear-gradient(135deg,
+            #10b981 0%,
+            #3b82f6 50%,
+            #8b5cf6 100%);
+    background-size: 200% 200%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    background-clip: text;
+
+    /* Animation */
+    animation: shimmer 5s ease-in-out infinite;
+
+    /* Glow Effect */
+    filter: drop-shadow(0 0 20px rgba(16, 185, 129, 0.5));
+    transition: all 0.4s ease;
+    cursor: pointer;
+}
+
+.logo:hover {
+    filter: drop-shadow(0 0 30px rgba(16, 185, 129, 0.7));
+    transform: scale(1.05);
 }
 
 .header-controls {
@@ -29,57 +61,130 @@
 }
 
 .admin-btn {
-    background: var(--accent-primary, #48bb78);
-    border: none;
+    /* Modern Button Design */
+    background: linear-gradient(135deg,
+            rgba(16, 185, 129, 1) 0%,
+            rgba(5, 150, 105, 1) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
+    padding: 0.625rem 1.5rem;
+    border-radius: 12px;
     cursor: pointer;
     font-size: 0.875rem;
-    font-weight: 600;
-    transition: all 0.3s;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    position: relative;
+    overflow: hidden;
+
+    /* Shadow */
+    box-shadow:
+        0 4px 12px -2px rgba(16, 185, 129, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+
+    /* Smooth Transitions */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.admin-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg,
+            rgba(255, 255, 255, 0.2) 0%,
+            transparent 50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 .admin-btn:hover {
-    background: #38a169;
-    transform: translateY(-2px);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow:
+        0 8px 20px -4px rgba(16, 185, 129, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+}
+
+.admin-btn:hover::before {
+    opacity: 1;
+}
+
+.admin-btn:active {
+    transform: translateY(0) scale(0.98);
 }
 
 .ads-toggle-btn {
-    background-color: rgba(255, 255, 255, 0.1);
-    border: 1px solid var(--border-color);
-    color: var(--text-primary);
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.9);
+    padding: 0.625rem 1.25rem;
+    border-radius: 12px;
     cursor: pointer;
     font-size: 0.875rem;
-    font-weight: 500;
-    transition: all 0.2s;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .ads-toggle-btn:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.14);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    transform: translateY(-2px);
 }
 
 .menu-btn {
-    background: none;
-    border: none;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
     cursor: pointer;
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    padding: 8px;
-    border-radius: 4px;
-    transition: background-color 0.2s;
+    gap: 5px;
+    padding: 10px;
+    border-radius: 10px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .menu-btn:hover {
-    background-color: var(--border-color);
+    background: rgba(255, 255, 255, 0.14);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+.menu-btn:active {
+    transform: scale(0.95);
 }
 
 .bar {
-    width: 24px;
-    height: 2px;
-    background-color: var(--text-primary);
+    width: 22px;
+    height: 2.5px;
+    background: linear-gradient(90deg,
+            rgba(255, 255, 255, 0.9),
+            rgba(255, 255, 255, 0.7));
     border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.menu-btn:hover .bar {
+    background: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .header {
+        padding: 0 1.5rem;
+        height: 65px;
+    }
+
+    .logo {
+        font-size: 1.4rem;
+    }
+
+    .header-controls {
+        gap: 0.5rem;
+    }
+
+    .admin-btn,
+    .ads-toggle-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+    }
 }

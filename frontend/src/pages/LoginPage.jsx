@@ -20,7 +20,7 @@ const LoginPage = () => {
             await login(email, password);
             navigate('/admin');
         } catch (err) {
-            setError(err.message || 'Error al iniciar sesión');
+            setError(err.message || 'Login error');
         } finally {
             setLoading(false);
         }
@@ -31,7 +31,7 @@ const LoginPage = () => {
             <div className="login-box">
                 <div className="login-header">
                     <h1>SEASON COUNTER</h1>
-                    <p>Panel de Administración</p>
+                    <p>Admin Panel</p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="login-form">
@@ -42,13 +42,13 @@ const LoginPage = () => {
                             id="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            placeholder="admin@seasoncounter.com"
+                            placeholder="yeramtza@gmail.com"
                             required
                         />
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="password">Contraseña</label>
+                        <label htmlFor="password">Password</label>
                         <input
                             type="password"
                             id="password"
@@ -62,18 +62,14 @@ const LoginPage = () => {
                     {error && <div className="error-message">{error}</div>}
 
                     <button type="submit" className="btn-login" disabled={loading}>
-                        {loading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
+                        {loading ? 'Logging in...' : 'Login'}
                     </button>
                 </form>
 
                 <div className="login-footer">
-                    <Link to="/" className="back-link">← Volver al inicio</Link>
+                    <Link to="/" className="back-link">← Back to home</Link>
                 </div>
 
-                <div className="demo-credentials">
-                    <p><strong>Credenciales de prueba:</strong></p>
-                    <p>Admin: admin@seasoncounter.com / admin123</p>
-                </div>
             </div>
         </div>
     );

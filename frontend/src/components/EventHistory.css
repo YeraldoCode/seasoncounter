@@ -1,0 +1,213 @@
+/* Event History Container */
+.event-history {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    animation: slideUp 0.6s ease-out;
+}
+
+/* Section Containers */
+.history-section,
+.facts-section {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border-radius: 24px;
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.history-section:hover,
+.facts-section:hover {
+    transform: translateY(-4px);
+    box-shadow: 
+        0 12px 40px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Section Titles */
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 1.25rem 0;
+    background: linear-gradient(135deg, var(--text-primary), rgba(255, 255, 255, 0.7));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.title-icon {
+    font-size: 1.75rem;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+    animation: float 3s ease-in-out infinite;
+}
+
+/* History Text */
+.history-text {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text-secondary);
+    margin: 0;
+    text-align: justify;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Fun Facts List */
+.facts-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 1rem;
+}
+
+.fact-item {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    padding: 1rem 1.25rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 16px;
+    border-left: 4px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+    opacity: 0;
+    animation: fadeIn 0.5s ease-out forwards;
+    position: relative;
+    overflow: hidden;
+}
+
+.fact-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        rgba(255, 255, 255, 0.05), 
+        rgba(255, 255, 255, 0.1),
+        rgba(255, 255, 255, 0.05)
+    );
+    transition: width 0.3s ease;
+    z-index: -1;
+}
+
+.fact-item:hover {
+    transform: translateX(8px);
+    border-left-color: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.fact-item:hover::before {
+    width: 100%;
+}
+
+/* Animations */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .event-history {
+        gap: 1.5rem;
+        margin-top: 1.5rem;
+    }
+
+    .history-section,
+    .facts-section {
+        padding: 1.5rem;
+        border-radius: 20px;
+    }
+
+    .section-title {
+        font-size: 1.3rem;
+        gap: 0.5rem;
+    }
+
+    .title-icon {
+        font-size: 1.5rem;
+    }
+
+    .history-text {
+        font-size: 1rem;
+        line-height: 1.7;
+        text-align: left;
+    }
+
+    .fact-item {
+        font-size: 0.95rem;
+        padding: 0.875rem 1rem;
+        border-radius: 12px;
+    }
+
+    .fact-item:hover {
+        transform: translateX(4px);
+    }
+}
+
+@media (max-width: 480px) {
+    .event-history {
+        gap: 1.25rem;
+        margin-top: 1.25rem;
+    }
+
+    .history-section,
+    .facts-section {
+        padding: 1.25rem;
+        border-radius: 16px;
+    }
+
+    .section-title {
+        font-size: 1.2rem;
+    }
+
+    .title-icon {
+        font-size: 1.4rem;
+    }
+
+    .history-text {
+        font-size: 0.95rem;
+    }
+
+    .fact-item {
+        font-size: 0.9rem;
+        padding: 0.75rem 0.875rem;
+    }
+}

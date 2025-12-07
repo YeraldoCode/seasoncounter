@@ -2,51 +2,40 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import AdSidebar from '../components/AdSidebar';
-import SeasonCounter from '../components/SeasonCounter';
+import EventCounter from '../components/EventCounter';
 import GameMenu from '../components/GameMenu';
-import { seasonService } from '../services/seasonService';
+import Footer from '../components/Footer';
+import { useGetEventsQuery } from '../store/apiSlice';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 import './LandingPage.css';
 
 const LandingPage = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [selectedGame, setSelectedGame] = useState("Fortnite");
+  const [selectedEvent, setSelectedEvent] = useState("FIFA World Cup 2026");
   const [showAds, setShowAds] = useState(true);
-  const [seasons, setSeasons] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [availableGames, setAvailableGames] = useState([]);
   const { isAdmin } = useAuth();
+  const { theme } = useTheme();
   const navigate = useNavigate();
 
+  // Fetch events using RTK Query
+  const { data: eventsData = [], isLoading, error } = useGetEventsQuery();
+
+  // Create events map and available events list
+  const eventsMap = {};
+  const availableEvents = [];
+
+  eventsData.forEach(event => {
+    eventsMap[event.name] = event;
+    availableEvents.push(event.name);
+  });
+
+  // Set first event if current selection is not available
   useEffect(() => {
-    fetchSeasons();
-  }, []);
-
-  const fetchSeasons = async () => {
-    try {
-      setLoading(true);
-      const data = await seasonService.getAllSeasons();
-
-      const seasonsMap = {};
-      const games = [];
-
-      data.forEach(season => {
-        seasonsMap[season.game] = season;
-        games.push(season.game);
-      });
-
-      setSeasons(seasonsMap);
-      setAvailableGames(games);
-
-      if (games.length > 0 && !games.includes(selectedGame)) {
-        setSelectedGame(games[0]);
-      }
-    } catch (error) {
-      console.error('Error loading seasons:', error);
-    } finally {
-      setLoading(false);
+    if (availableEvents.length > 0 && !availableEvents.includes(selectedEvent)) {
+      setSelectedEvent(availableEvents[0]);
     }
-  };
+  }, [eventsData]);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -56,8 +45,8 @@ const LandingPage = () => {
     setShowAds(!showAds);
   };
 
-  const handleGameSelect = (game) => {
-    setSelectedGame(game);
+  const handleEventSelect = (event) => {
+    setSelectedEvent(event);
     setIsMenuOpen(false);
   };
 
@@ -67,12 +56,22 @@ const LandingPage = () => {
     }
   };
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="app-container">
         <div className="loading-screen">
           <div className="spinner"></div>
-          <p>Loading seasons...</p>
+          <p>Loading events...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="app-container">
+        <div className="error-screen">
+          <p>Error loading events</p>
         </div>
       </div>
     );
@@ -80,9 +79,9 @@ const LandingPage = () => {
 
   return (
     <div className="app-container">
-      <Header 
-        toggleMenu={toggleMenu} 
-        toggleAds={toggleAds} 
+      <Header
+        toggleMenu={toggleMenu}
+        toggleAds={toggleAds}
         showAds={showAds}
         showAdminButton={isAdmin()}
         onAdminClick={goToAdmin}
@@ -90,19 +89,21 @@ const LandingPage = () => {
 
       <GameMenu
         isOpen={isMenuOpen}
-        selectGame={handleGameSelect}
-        selectedGame={selectedGame}
-        availableGames={availableGames}
+        selectGame={handleEventSelect}
+        selectedGame={selectedEvent}
+        availableGames={availableEvents}
       />
 
       <div className="main-content">
         {showAds && <AdSidebar />}
-        <SeasonCounter
-          selectedGame={selectedGame}
-          seasonData={seasons[selectedGame]}
+        <EventCounter
+          selectedEvent={selectedEvent}
+          eventData={eventsMap[selectedEvent]}
         />
         {showAds && <AdSidebar />}
       </div>
+
+      <Footer />
     </div>
   );
 };

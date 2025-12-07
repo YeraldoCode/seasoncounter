@@ -8,18 +8,20 @@
     width: 100%;
     height: 6px;
     background-color: rgba(30, 41, 59, 0.5);
+    background-color: var(--color-secondary, rgba(30, 41, 59, 0.5));
     border-radius: 999px;
     overflow: hidden;
     margin-bottom: 0.75rem;
     border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: background-color 0.5s ease, border-color 0.5s ease;
 }
 
 .progress-bar-fill {
     height: 100%;
-    background: linear-gradient(90deg, var(--accent-primary), #34d399);
+    background: linear-gradient(90deg, var(--color-accent, var(--accent-primary)), var(--color-primary, #34d399));
     border-radius: 999px;
-    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1), background 0.5s ease, box-shadow 0.5s ease;
+    box-shadow: 0 0 15px var(--color-accent, rgba(16, 185, 129, 0.4));
     position: relative;
     overflow: hidden;
 }
@@ -45,9 +47,10 @@
 .progress-labels {
     display: flex;
     justify-content: space-between;
-    color: var(--text-secondary);
+    color: var(--color-text, var(--text-secondary));
     font-size: 0.8rem;
     font-weight: 600;
     letter-spacing: 0.05em;
     text-transform: uppercase;
+    transition: color 0.5s ease;
 }

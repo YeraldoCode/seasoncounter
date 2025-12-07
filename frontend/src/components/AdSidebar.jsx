@@ -7,13 +7,13 @@ const AdSidebar = () => {
             <div className="ad-slot">
                 <div className="ad-placeholder">
                     <span className="ad-label">Ad Space</span>
-                    <span className="ad-dims">300x250</span>
+                    <span className="ad-dims">320x350</span>
                 </div>
             </div>
             <div className="ad-slot">
                 <div className="ad-placeholder">
                     <span className="ad-label">Sponsor</span>
-                    <span className="ad-dims">300x250</span>
+                    <span className="ad-dims">320x350</span>
                 </div>
             </div>
         </div>

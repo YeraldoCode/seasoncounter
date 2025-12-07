@@ -1,9 +1,8 @@
 import React from 'react';
 import { Routes, Route, Navigate, Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import SeasonsManagement from './admin/SeasonsManagement';
+import EventsManagement from './admin/EventsManagement';
 import UsersManagement from './admin/UsersManagement';
-import ThemesManagement from './admin/ThemesManagement';
 import './AdminPage.css';
 
 const AdminPage = () => {
@@ -25,39 +24,32 @@ const AdminPage = () => {
                 </div>
 
                 <nav className="sidebar-nav">
-                    <Link 
-                        to="/admin/seasons" 
-                        className={location.pathname.includes('/seasons') ? 'nav-link active' : 'nav-link'}
+                    <Link
+                        to="/admin/events"
+                        className={location.pathname.includes('/events') ? 'nav-link active' : 'nav-link'}
                     >
-                        🎮 Temporadas
+                        📅 Events
                     </Link>
-                    <Link 
-                        to="/admin/themes" 
-                        className={location.pathname.includes('/themes') ? 'nav-link active' : 'nav-link'}
-                    >
-                        🎨 Temas
-                    </Link>
-                    <Link 
-                        to="/admin/users" 
+                    <Link
+                        to="/admin/users"
                         className={location.pathname.includes('/users') ? 'nav-link active' : 'nav-link'}
                     >
-                        👥 Usuarios
+                        👥 Users
                     </Link>
                 </nav>
 
                 <div className="sidebar-footer">
-                    <Link to="/" className="nav-link">🏠 Ver Landing</Link>
+                    <Link to="/" className="nav-link">🏠 View Landing</Link>
                     <button onClick={handleLogout} className="btn-logout">
-                        🚪 Cerrar Sesión
+                        🚪 Sign Out
                     </button>
                 </div>
             </aside>
 
             <main className="admin-main">
                 <Routes>
-                    <Route index element={<Navigate to="/admin/seasons" replace />} />
-                    <Route path="seasons" element={<SeasonsManagement />} />
-                    <Route path="themes" element={<ThemesManagement />} />
+                    <Route index element={<Navigate to="/admin/events" replace />} />
+                    <Route path="events" element={<EventsManagement />} />
                     <Route path="users" element={<UsersManagement />} />
                 </Routes>
             </main>

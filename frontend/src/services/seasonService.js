@@ -1,12 +1,7 @@
 import axios from 'axios';
-import { authService } from './authService';
+import axiosInstance from '../config/axios';
 
 const API_URL = 'http://localhost:5000/api/seasons';
-
-const getAuthHeader = () => {
-    const token = authService.getToken();
-    return token ? { Authorization: `Bearer ${token}` } : {};
-};
 
 export const seasonService = {
     // Get all seasons (public)
@@ -31,12 +26,21 @@ export const seasonService = {
         }
     },
 
-    // Update or create season (protected - admin only)
-    updateSeason: async (seasonData) => {
+    // Create new season (protected - admin only)
+    createSeason: async (seasonData) => {
         try {
-            const response = await axios.post(API_URL, seasonData, {
-                headers: getAuthHeader()
-            });
+            const response = await axiosInstance.post('/seasons', seasonData);
+            return response.data;
+        } catch (error) {
+            console.error('Error creating season:', error);
+            throw error;
+        }
+    },
+
+    // Update season (protected - admin only)
+    updateSeason: async (game, seasonData) => {
+        try {
+            const response = await axiosInstance.put(`/seasons/${encodeURIComponent(game)}`, seasonData);
             return response.data;
         } catch (error) {
             console.error('Error updating season:', error);
@@ -47,9 +51,7 @@ export const seasonService = {
     // Delete season (protected - admin only)
     deleteSeason: async (gameName) => {
         try {
-            const response = await axios.delete(`${API_URL}/${gameName}`, {
-                headers: getAuthHeader()
-            });
+            const response = await axiosInstance.delete(`/seasons/${encodeURIComponent(gameName)}`);
             return response.data;
         } catch (error) {
             console.error('Error deleting season:', error);

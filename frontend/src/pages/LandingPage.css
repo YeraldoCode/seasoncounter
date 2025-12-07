@@ -1,1 +1,7 @@
 /* Landing Page styles - inherits from App.css */
+
+.app-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}

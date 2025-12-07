@@ -1,47 +1,152 @@
 .season-counter-wrapper {
     text-align: center;
-    padding: 3rem 2rem;
+    padding: 3.5rem 3rem;
     flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
-    max-width: 1000px;
-    margin: 2rem auto;
-    background: rgba(30, 41, 59, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 24px;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    max-width: 1100px;
+    margin: 2.5rem auto;
+    position: relative;
+    
+    /* Modern Glassmorphism */
+    background: rgba(26, 31, 46, 0.75);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 32px;
+    
+    /* Enhanced Shadows */
+    box-shadow: 
+        0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+        0 25px 60px -15px rgba(0, 0, 0, 0.5),
+        0 0 100px -20px currentColor;
+    
+    /* Smooth Transitions */
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+}
+
+.season-counter-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        currentColor,
+        transparent
+    );
+    opacity: 0.5;
+}
+
+.season-counter-wrapper:hover {
+    transform: translateY(-4px);
+    box-shadow: 
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+        0 30px 70px -15px rgba(0, 0, 0, 0.6),
+        0 0 120px -20px currentColor;
 }
 
 .season-title {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--text-secondary);
-    margin-bottom: 0.25rem;
-    letter-spacing: 0.1em;
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
+    margin-bottom: 0.75rem;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    
+    /* Gradient Text */
+    background: linear-gradient(
+        135deg,
+        currentColor 0%,
+        rgba(255, 255, 255, 0.7) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    
+    /* Smooth Transition */
+    transition: all 0.5s ease;
+    animation: fadeIn 0.6s ease-out 0.2s both;
 }
 
 .season-number {
     display: block;
-    font-size: 3.5rem;
-    font-weight: 800;
-    color: var(--text-primary);
-    letter-spacing: -1px;
-    margin-top: 0.5rem;
-    background: linear-gradient(to bottom right, #fff, #94a3b8);
+    font-size: 4rem;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    line-height: 1;
+    
+    /* Metallic Gradient Effect */
+    background: linear-gradient(
+        135deg,
+        currentColor 0%,
+        rgba(255, 255, 255, 0.9) 50%,
+        currentColor 100%
+    );
     -webkit-background-clip: text;
-    background-clip: text;
     -webkit-text-fill-color: transparent;
+    background-clip: text;
+    background-size: 200% 200%;
+    
+    /* Animation */
+    animation: shimmer 3s ease-in-out infinite, scaleIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+    
+    /* Glow Effect */
+    filter: drop-shadow(0 0 20px currentColor);
+    transition: all 0.5s ease;
+}
+
+@keyframes shimmer {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .season-counter-wrapper {
+        max-width: 900px;
+        padding: 3rem 2.5rem;
+    }
 }
 
 @media (max-width: 768px) {
     .season-counter-wrapper {
-        padding: 1.5rem;
-        margin: 1rem;
-        width: auto;
+        padding: 2.5rem 2rem;
+        margin: 1.5rem auto;
+        max-width: calc(100% - 2rem);
+        border-radius: 24px;
+    }
+
+    .season-title {
+        font-size: 1.4rem;
+        letter-spacing: 0.1em;
+    }
+
+    .season-number {
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .season-counter-wrapper {
+        padding: 2rem 1.5rem;
+        margin: 1rem auto;
     }
 
     .season-title {

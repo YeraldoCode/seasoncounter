@@ -4,7 +4,7 @@ import './SeasonModal.css';
 const ThemeModal = ({ theme, onClose, onSave }) => {
     const [formData, setFormData] = useState({
         name: '',
-        season: 'default',
+        season: 'corporate',
         colors: {
             primary: '#1a202c',
             secondary: '#2d3748',
@@ -77,11 +77,13 @@ const ThemeModal = ({ theme, onClose, onSave }) => {
                                 onChange={handleChange}
                                 required
                             >
-                                <option value="default">🎨 Por Defecto</option>
-                                <option value="winter">❄️ Invierno</option>
-                                <option value="spring">🌸 Primavera</option>
+                                <option value="corporate">💼 Corporativo</option>
+                                <option value="christmas">🎄 Navidad</option>
+                                <option value="halloween">� Halloween</option>
                                 <option value="summer">☀️ Verano</option>
+                                <option value="winter">❄️ Invierno</option>
                                 <option value="autumn">🍂 Otoño</option>
+                                <option value="spring">🌸 Primavera</option>
                             </select>
                         </div>
                     </div>
@@ -189,7 +191,7 @@ const ThemeModal = ({ theme, onClose, onSave }) => {
                             Cancelar
                         </button>
                         <button type="submit" className="btn-primary">
-                            {theme ? 'Actualizar' : 'Crear'} Tema
+                            {theme ? 'Update' : 'Create'} Theme
                         </button>
                     </div>
                 </form>

@@ -155,7 +155,7 @@ const SeasonModal = ({ season, onClose, onSave }) => {
                             Cancelar
                         </button>
                         <button type="submit" className="btn-primary">
-                            {season ? 'Actualizar' : 'Crear'} Temporada
+                            {season ? 'Update' : 'Create'} Season
                         </button>
                     </div>
                 </form>

@@ -8,8 +8,8 @@ const themeSchema = new mongoose.Schema({
     },
     season: {
         type: String,
-        enum: ['spring', 'summer', 'autumn', 'winter', 'default'],
-        default: 'default'
+        enum: ['corporate', 'christmas', 'halloween', 'summer', 'winter', 'autumn', 'spring'],
+        default: 'corporate'
     },
     colors: {
         primary: { type: String, default: '#1a202c' },
