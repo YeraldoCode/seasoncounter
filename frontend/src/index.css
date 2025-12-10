@@ -1,3 +1,6 @@
+/* Google Fonts Import - Must be first */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
 :root {
   /* Modern Color Palette */
   --bg-primary: #0a0f1a;
@@ -60,9 +63,6 @@
   --blur-lg: blur(16px);
   --blur-xl: blur(24px);
 }
-
-/* Smooth Font Rendering */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 * {
   box-sizing: border-box;
