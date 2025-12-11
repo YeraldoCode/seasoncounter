@@ -13,35 +13,9 @@ dotenv.config();
 const app = express();
 
 // Middleware
-const allowedOrigins = [
-    'http://localhost:5173',
-    'http://localhost:5174',
-    'https://seasoncounter.netlify.app',
-    'https://*.netlify.app', // Permite todos los subdominios de Netlify
-    process.env.FRONTEND_URL,
-].filter(Boolean);
-
+// Configuración CORS permisiva para Netlify
 app.use(cors({
-    origin: function (origin, callback) {
-        // Permite requests sin origin (como mobile apps o curl)
-        if (!origin) return callback(null, true);
-        
-        // Verifica si el origin está en la lista o si termina con .netlify.app
-        const isAllowed = allowedOrigins.some(allowed => {
-            if (allowed.includes('*')) {
-                // Maneja wildcards para .netlify.app
-                return origin?.endsWith('.netlify.app');
-            }
-            return origin === allowed || origin?.startsWith(allowed);
-        });
-        
-        if (isAllowed) {
-            callback(null, true);
-        } else {
-            console.log('CORS blocked origin:', origin);
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
+    origin: true, // Permite todos los orígenes en producción de Netlify
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
