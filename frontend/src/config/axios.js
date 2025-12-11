@@ -4,11 +4,13 @@ import { authService } from '../services/authService';
 // Get API URL from environment variable or use localhost as fallback
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
-console.log('🔧 Environment variables:', {
-    VITE_API_URL: import.meta.env.VITE_API_URL,
-    API_URL: API_URL,
-    MODE: import.meta.env.MODE
-});
+// Log detallado para debug
+console.log('🔧 ===== AXIOS CONFIG DEBUG =====');
+console.log('🔧 import.meta.env:', import.meta.env);
+console.log('🔧 VITE_API_URL:', import.meta.env.VITE_API_URL);
+console.log('🔧 API_URL final:', API_URL);
+console.log('🔧 MODE:', import.meta.env.MODE);
+console.log('🔧 ================================');
 
 // Create axios instance
 const axiosInstance = axios.create({
