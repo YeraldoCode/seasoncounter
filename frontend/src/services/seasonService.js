@@ -1,7 +1,7 @@
 import axios from 'axios';
 import axiosInstance from '../config/axios';
 
-const API_URL = 'http://localhost:5000/api/seasons';
+const API_URL = `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/seasons`;
 
 export const seasonService = {
     // Get all seasons (public)
